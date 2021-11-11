@@ -3,6 +3,7 @@ import 'package:english_words/english_words.dart';
 
 class CounterPage extends StatefulWidget {
   static const routeName = '/counter-page';
+  static const moduleIcon = Icon(Icons.add);
   const CounterPage({Key? key, required this.title, required this.randomText})
       : super(key: key);
 
@@ -49,7 +50,9 @@ class _CounterPageState extends State<CounterPage>
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    super.build(context);
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.

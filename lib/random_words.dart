@@ -4,6 +4,7 @@ import 'package:english_words/english_words.dart';
 class RandomWords extends StatefulWidget {
   const RandomWords({Key? key}) : super(key: key);
   static const routeName = '/random-words';
+  static const moduleIcon = Icon(Icons.sort_by_alpha);
 
   @override
   _RandomWordsState createState() => _RandomWordsState();
@@ -19,7 +20,7 @@ class _RandomWordsState extends State<RandomWords>
     super.build(context);
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Theme.of(context).canvasColor,
+            // backgroundColor: Theme.of(context).canvasColor,
             title: const Text('Name Generator'),
             actions: [
               IconButton(
