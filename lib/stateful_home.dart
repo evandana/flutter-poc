@@ -22,11 +22,11 @@ class _StatefulHomeState extends State<StatefulHome> {
     _children = [
       const RandomWords(),
       CounterPage(title: 'Counter+', randomText: WordPair.random()),
-      Module1(
-        goToM2Callback: () => setState(() {
-          _currentIndex = 1;
-        }),
-      )
+      // Module1(
+      //   goToM2Callback: () => setState(() {
+      //     _currentIndex = 1;
+      //   }),
+      // )
     ];
   }
 
@@ -44,8 +44,8 @@ class _StatefulHomeState extends State<StatefulHome> {
               label: RandomWords.routeName, icon: RandomWords.moduleIcon),
           BottomNavigationBarItem(
               label: CounterPage.routeName, icon: CounterPage.moduleIcon),
-          BottomNavigationBarItem(
-              label: Module1.routeName, icon: Icon(Icons.location_pin)),
+          // BottomNavigationBarItem(
+          //     label: Module1.routeName, icon: Icon(Icons.location_pin)),
         ],
         onTap: (int index) {
           setState(() {

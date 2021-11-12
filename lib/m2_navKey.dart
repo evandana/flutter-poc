@@ -46,19 +46,48 @@ class _Module2State extends State<Module2> {
 
   @override
   Widget build(BuildContext context) {
-    switch (widget.subRoute) {
-      case Module2.p2SubRoute:
-      case '/${Module2.routeName}/${Module2.p2SubRoute}':
-        return Module2p2(goToM1p1: _goToM2p1);
-      case Module2.p1SubRoute:
-      case '/${Module2.routeName}/${Module2.p1SubRoute}':
-      default:
-        return Module2p1(goToM2p2: _goToM2p2);
-    }
+    return Scaffold(
+      body: Navigator(
+        key: widget.navigatorKey,
+        initialRoute: widget.subRoute,
+        onGenerateRoute: _onGenerateRoute,
+      ),
+    );
   }
+
+  Route _onGenerateRoute(RouteSettings settings) {
+    late Widget page;
+
+    switch (settings.name) {
+      case '${Module2.routeName}/${Module2.p2SubRoute}':
+        page = Module2p2(goToM1p1: _goToM2p1);
+        break;
+      case '${Module2.routeName}/${Module2.p1SubRoute}':
+      default:
+        page = Module2p1(goToM1p2: _goToM2p2);
+        break;
+    }
+
+    return MaterialPageRoute<dynamic>(
+      builder: (context) {
+        return page;
+      },
+      settings: settings,
+    );
+  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   switch (widget.subRoute) {
+  //     case Module2.p2SubRoute:
+  //       return Module2p2(goToM1p1: _goToM2p1);
+  //     case Module2.p1SubRoute:
+  //     default:
+  //       return Module2p1(goToM1p2: _goToM2p2);
+  //   }
+  // }
 }
 
-AppBar m2AppBar({String subPageName = ''}) {
+AppBar m1AppBar({String subPageName = ''}) {
   return AppBar(
       backgroundColor: Colors.pink[800],
       title: RichText(
@@ -73,13 +102,13 @@ goToCounter(BuildContext context) {
 }
 
 class Module2p1 extends StatelessWidget {
-  final Function goToM2p2;
-  const Module2p1({Key? key, required this.goToM2p2}) : super(key: key);
+  final Function goToM1p2;
+  const Module2p1({Key? key, required this.goToM1p2}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: m2AppBar(subPageName: '1'),
+        appBar: m1AppBar(subPageName: '1'),
         body: Center(
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +125,7 @@ class Module2p1 extends StatelessWidget {
                   style: Module2.elevatedButtonBg,
                   icon: Module2.moduleIcon,
                   label: const Text('go to M2.2'),
-                  onPressed: () => goToM2p2()),
+                  onPressed: () => goToM1p2()),
             ])));
   }
 }
@@ -108,7 +137,7 @@ class Module2p2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: m2AppBar(subPageName: '2'),
+        appBar: m1AppBar(subPageName: '2'),
         body: Center(
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -125,8 +154,7 @@ class Module2p2 extends StatelessWidget {
               ElevatedButton.icon(
                   icon: Icon(Icons.arrow_forward),
                   label: const Text('Done'),
-                  onPressed: () =>
-                      Navigator.of(context).popUntil((route) => false)(123)),
+                  onPressed: () => Navigator.of(context).pop()),
             ])));
   }
 }
