@@ -8,6 +8,7 @@ import 'package:floater/m1.dart';
 import 'package:floater/m2.dart';
 import 'package:floater/random_words.dart';
 import 'package:floater/stateful_home.dart';
+import 'package:floater/test_tabs.dart';
 import 'package:flutter/material.dart';
 
 const routeHome = '/';
@@ -44,14 +45,15 @@ void main() {
         ),
       ),
       routes: {
-        routeHome: (context) => const Module1(routeM2: routeM2),
+        '/': (context) => TabsScreen(),
+        // routeHome: (context) => const Module1(routeM2: routeM2),
         // routeM2: (context) => const Module2(),
 
         // routeM1: (context) => const Module1(),
         // routeM1p1: (context) => const Module1(subRoute: Module1.p1SubRoute),
         // routeM1p2: (context) => const Module1(subRoute: Module1.p2SubRoute),
-        routeHomeTabsCounter: (context) =>
-            CounterPage(title: 'Counter Title', randomText: WordPair.random()),
+        // routeHomeTabsCounter: (context) =>
+        //     CounterPage(title: 'Counter Title', randomText: WordPair.random()),
       },
       // onGenerateRoute: (settings) {
       //   late Widget page;
