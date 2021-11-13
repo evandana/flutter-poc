@@ -114,8 +114,7 @@ class Module2p2 extends StatelessWidget {
                   label: const Text('Done with M2'),
                   onPressed: () => Navigator.of(context).popUntil((route) {
                         if (!route.settings.name!.contains('m2')) {
-                          (route.settings.arguments as Map)['result'] =
-                              'something';
+                          (route.settings.arguments as Map)['result'] = 'done';
                           return true;
                         } else {
                           return false;

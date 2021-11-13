@@ -10,8 +10,8 @@ class Module1 extends StatefulWidget {
 
   final String subRoute;
   final String routeM2;
-  final depMod;
-  final depModConstructor;
+  final depMod; // How do I add typing for this?
+  final depModConstructor; // How do I add typing for this?
   const Module1(
       {Key? key,
       required this.depMod,
@@ -39,7 +39,6 @@ class _Module1State extends State<Module1> {
   }
 
   _goToM2() {
-    print('m2 route: ${widget.routeM2}');
     return _navigatorKey.currentState!.pushNamed(widget.routeM2);
   }
 
@@ -127,10 +126,6 @@ class Module1p1 extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-              // ElevatedButton.icon(
-              //     icon: CounterPage.moduleIcon,
-              //     label: const Text('go to Counter'),
-              //     onPressed: () => ()),
               ElevatedButton.icon(
                   icon: Module1.moduleIcon,
                   label: const Text('< disabled'),
@@ -143,12 +138,13 @@ class Module1p1 extends StatelessWidget {
   }
 }
 
-class Module1p2 extends StatelessWidget {
+class Module1p2 extends StatefulWidget {
+  static const String _m2ValDefault = '?';
   final Function goToM1p1;
   final Function goToM2;
   final Function setM2Val;
   final String m2Val;
-  final depMod;
+  final depMod; // How do I add typing for this?
   const Module1p2(
       {Key? key,
       required this.setM2Val,
@@ -159,6 +155,20 @@ class Module1p2 extends StatelessWidget {
       : super(key: key);
 
   @override
+  _Module1p2State createState() => _Module1p2State();
+}
+
+class _Module1p2State extends State<Module1p2> {
+  var _m2Val = Module1p2._m2ValDefault;
+
+  void _setM2Val(m2Val) {
+    setState(() {
+      _m2Val = m2Val;
+    });
+    widget.setM2Val(m2Val);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: m1AppBar(subPageName: '2'),
@@ -167,25 +177,27 @@ class Module1p2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'M2 val: $m2Val',
-              style: TextStyle(fontSize: 50),
+              'M2 val: $_m2Val',
+              style: const TextStyle(fontSize: 50),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               ElevatedButton.icon(
                   icon: Module1.moduleIcon,
                   label: const Text('< back'),
                   onPressed: () => Navigator.of(context).maybePop()),
-              ElevatedButton.icon(
-                  style: depMod.elevatedButtonBg,
-                  icon: Icon(Icons.arrow_forward),
-                  label: const Text('go to M2'),
-                  onPressed: () async {
-                    await goToM2();
-                    var args =
-                        ModalRoute.of(context)!.settings.arguments as Map;
-                    setM2Val(args['result']);
-                    print('args: ${args['result']}');
-                  }),
+              _m2Val == Module1p2._m2ValDefault
+                  ? ElevatedButton.icon(
+                      style: widget.depMod.elevatedButtonBg,
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text('go to M2'),
+                      onPressed: () async {
+                        await widget.goToM2();
+                        var args =
+                            ModalRoute.of(context)!.settings.arguments as Map;
+                        _setM2Val(args['result']);
+                        print('args: ${args['result']}');
+                      })
+                  : const Text("You're done!"),
             ]),
           ],
         )));

@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import './counter_page.dart';
 import './random_words.dart';
 
+/**
+ * This would need to be extracted to a common package so it could be accessed by both the main orchestrator and the Modules (1/2)
+ */
 class DepModule {
   final ButtonStyle elevatedButtonBg;
   DepModule(this.elevatedButtonBg);
@@ -22,7 +25,6 @@ class _TabsScreenState extends State<TabsScreen> {
   final _randomWords = GlobalKey<NavigatorState>();
   final _counterPage = GlobalKey<NavigatorState>();
   final _m1Screen = GlobalKey<NavigatorState>();
-  final _settingsScreen = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _TabsScreenState extends State<TabsScreen> {
             key: _randomWords,
             onGenerateRoute: (route) => MaterialPageRoute(
               settings: route,
-              builder: (context) => RandomWords(),
+              builder: (context) => const RandomWords(),
             ),
           ),
           Navigator(
@@ -64,18 +66,18 @@ class _TabsScreenState extends State<TabsScreen> {
         currentIndex: _currentIndex,
         onTap: (val) => _onTap(val, context),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.library_books),
-            title: Text('random words'),
+            label: 'random words',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            title: Text('Counter'),
+            label: 'Counter',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: Text('M1'),
+            icon: Module1.moduleIcon,
+            label: 'M1',
           ),
         ],
       ),
