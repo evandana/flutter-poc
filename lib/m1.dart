@@ -16,7 +16,7 @@ class Module1 extends StatefulWidget {
 
   final String subRoute;
   final String routeM2;
-  const Module1({Key? key, this.subRoute = p1SubRoute, required this.routeM2})
+  const Module1({Key? key, this.subRoute = p1SubRoute, this.routeM2 = '/m1/m2'})
       : super(key: key);
 
   @override
@@ -36,9 +36,14 @@ class _Module1State extends State<Module1> {
         .pushNamed('/${Module1.routeName}/${Module1.p2SubRoute}');
   }
 
-  _goToM2() async {
+  _goToM2() {
     print('m2 route: ${widget.routeM2}');
-    return await _navigatorKey.currentState!.pushNamed(widget.routeM2);
+    return _navigatorKey.currentState!.pushNamed(widget.routeM2);
+    // return _navigatorKey.currentState!.pushNamed(widget.routeM2).then((_) {
+    //   final arguments = ModalRoute.of(context)!.settings.arguments as Map;
+    //   final result = arguments['result'];
+    // });
+    // Navigator.of(context).push(MaterialPageRoute(builder: (_) => Module2())
   }
 
   @override
@@ -66,12 +71,18 @@ class _Module1State extends State<Module1> {
         navigatorKey: _navigatorKey,
         subRoute: settings.name!,
       );
+      // return MaterialPageRoute(
+      //     settings: RouteSettings(arguments: Map(), name: '/m2'), // (1)
+      //     builder: (_) => Module2(
+      //           navigatorKey: _navigatorKey,
+      //           subRoute: settings.name!,
+      //         ));
     } else {
       switch (settings.name) {
         // m2
-        case '/m1/m2':
-          page = Module2(navigatorKey: _navigatorKey);
-          break;
+        // case '/m1/m2':
+        //   page = Module2(navigatorKey: _navigatorKey);
+        //   break;
 
         // m1
         case '/${Module1.routeName}/${Module1.p2SubRoute}':
@@ -89,7 +100,7 @@ class _Module1State extends State<Module1> {
       builder: (context) {
         return page;
       },
-      settings: settings,
+      settings: RouteSettings(name: settings.name, arguments: Map()),
     );
   }
   // @override
@@ -159,10 +170,6 @@ class Module1p2 extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-              // ElevatedButton.icon(
-              //     icon: CounterPage.moduleIcon,
-              //     label: const Text('go to Counter'),
-              //     onPressed: () => goToCounter(context)),
               ElevatedButton.icon(
                   icon: Module1.moduleIcon,
                   label: const Text('< back'),
@@ -172,8 +179,10 @@ class Module1p2 extends StatelessWidget {
                   icon: Icon(Icons.arrow_forward),
                   label: const Text('go to M2'),
                   onPressed: () async {
-                    var m2Val = await goToM2();
-                    print(m2Val);
+                    await goToM2();
+                    var args =
+                        ModalRoute.of(context)!.settings.arguments as Map;
+                    print('args: ${args['result']}');
                   }),
             ])));
   }

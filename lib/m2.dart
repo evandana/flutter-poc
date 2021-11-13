@@ -124,9 +124,18 @@ class Module2p2 extends StatelessWidget {
                   onPressed: () => Navigator.of(context).maybePop()),
               ElevatedButton.icon(
                   icon: Icon(Icons.arrow_forward),
-                  label: const Text('Done'),
-                  onPressed: () =>
-                      Navigator.of(context).popUntil((route) => false)(123)),
+                  label: const Text('Done with M2'),
+                  onPressed: () => Navigator.of(context)
+                          // .popUntil((route) => !route.toString().contains('m2'))),
+                          .popUntil((route) {
+                        if (!route.settings.name!.contains('m2')) {
+                          (route.settings.arguments as Map)['result'] =
+                              'something';
+                          return true;
+                        } else {
+                          return false;
+                        }
+                      })),
             ])));
   }
 }

@@ -44,7 +44,7 @@ class _TabsScreenState extends State<TabsScreen> {
           Navigator(
             key: _m1Screen,
             onGenerateRoute: (route) => MaterialPageRoute(
-              settings: route,
+              settings: RouteSettings(arguments: Map()),
               builder: (BuildContext context) => Module1(),
             ),
           ),
