@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 class Module1 extends StatefulWidget {
   static const routeName = 'm1';
   static const moduleIcon = Icon(Icons.location_pin);
-
   static const p1SubRoute = 'one';
   static const p2SubRoute = 'two';
+  static const String m2ValDefault = '?';
 
   final String subRoute;
   final String routeM2;
-  final depMod; // How do I add typing for this?
+  final depModProps; // How do I add typing for this?
   final depModConstructor; // How do I add typing for this?
   const Module1(
       {Key? key,
-      required this.depMod,
+      required this.depModProps,
       required this.depModConstructor,
       this.subRoute = p1SubRoute,
       this.routeM2 = '/m1/m2'})
@@ -26,7 +26,7 @@ class Module1 extends StatefulWidget {
 
 class _Module1State extends State<Module1> {
   final _navigatorKey = GlobalKey<NavigatorState>();
-  var _m2Val = '-';
+  var _m2Val = Module1.m2ValDefault;
 
   void _goToM1p1() {
     _navigatorKey.currentState!
@@ -80,14 +80,14 @@ class _Module1State extends State<Module1> {
           page = Module1p2(
               m2Val: _m2Val,
               setM2Val: _setM2Val,
-              depMod: widget.depMod,
+              depMod: widget.depModProps,
               goToM1p1: _goToM1p1,
               goToM2: _goToM2);
           break;
         case '/${Module1.routeName}/${Module1.p1SubRoute}':
         case Module1.p1SubRoute:
         default:
-          page = Module1p1(goToM1p2: _goToM1p2);
+          page = Module1p1(m2Val: _m2Val, goToM1p2: _goToM1p2);
           break;
       }
     }
@@ -116,30 +116,34 @@ goToCounter(BuildContext context) {
 
 class Module1p1 extends StatelessWidget {
   final Function goToM1p2;
-  const Module1p1({Key? key, required this.goToM1p2}) : super(key: key);
+  final String m2Val;
+  const Module1p1(
+      {Key? key, this.m2Val = Module1.m2ValDefault, required this.goToM1p2})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: m1AppBar(subPageName: '1'),
         body: Center(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-              ElevatedButton.icon(
-                  icon: Module1.moduleIcon,
-                  label: const Text('< disabled'),
-                  onPressed: () => {}),
-              ElevatedButton.icon(
-                  icon: Module1.moduleIcon,
-                  label: const Text('go to M1.2'),
-                  onPressed: () => goToM1p2()),
-            ])));
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          // Text(
+          //   'M2 val: $m2Val', // <-- not sure why this gets reset on going back from M1p2
+          //   style: const TextStyle(fontSize: 50),
+          // ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            const Text(''),
+            ElevatedButton.icon(
+                icon: Module1.moduleIcon,
+                label: const Text('go to M1.2'),
+                onPressed: () => goToM1p2()),
+          ])
+        ])));
   }
 }
 
 class Module1p2 extends StatefulWidget {
-  static const String _m2ValDefault = '?';
   final Function goToM1p1;
   final Function goToM2;
   final Function setM2Val;
@@ -159,7 +163,7 @@ class Module1p2 extends StatefulWidget {
 }
 
 class _Module1p2State extends State<Module1p2> {
-  var _m2Val = Module1p2._m2ValDefault;
+  var _m2Val = Module1.m2ValDefault;
 
   void _setM2Val(m2Val) {
     setState(() {
@@ -185,7 +189,7 @@ class _Module1p2State extends State<Module1p2> {
                   icon: Module1.moduleIcon,
                   label: const Text('< back'),
                   onPressed: () => Navigator.of(context).maybePop()),
-              _m2Val == Module1p2._m2ValDefault
+              _m2Val == Module1.m2ValDefault
                   ? ElevatedButton.icon(
                       style: widget.depMod.elevatedButtonBg,
                       icon: const Icon(Icons.arrow_forward),

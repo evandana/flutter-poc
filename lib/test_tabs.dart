@@ -4,10 +4,12 @@ import 'package:floater/m2.dart';
 import 'package:flutter/material.dart';
 
 import './counter_page.dart';
-import './random_words.dart';
+// import './random_words.dart';
 
 /**
- * This would need to be extracted to a common package so it could be accessed by both the main orchestrator and the Modules (1/2)
+ * This would need to be extracted to a common package 
+ * so it could be accessed by both the main orchestrator 
+ * and the Modules (1/2)
  */
 class DepModule {
   final ButtonStyle elevatedButtonBg;
@@ -33,10 +35,13 @@ class _TabsScreenState extends State<TabsScreen> {
         index: _currentIndex,
         children: <Widget>[
           Navigator(
-            key: _randomWords,
+            key: _m1Screen,
             onGenerateRoute: (route) => MaterialPageRoute(
-              settings: route,
-              builder: (context) => const RandomWords(),
+              settings: RouteSettings(arguments: Map()),
+              builder: (BuildContext context) => Module1(
+                  depModConstructor: ({navigatorKey, subRoute}) =>
+                      Module2(navigatorKey: navigatorKey, subRoute: subRoute),
+                  depModProps: DepModule(Module2.elevatedButtonBg)),
             ),
           ),
           Navigator(
@@ -49,16 +54,13 @@ class _TabsScreenState extends State<TabsScreen> {
               ),
             ),
           ),
-          Navigator(
-            key: _m1Screen,
-            onGenerateRoute: (route) => MaterialPageRoute(
-              settings: RouteSettings(arguments: Map()),
-              builder: (BuildContext context) => Module1(
-                  depModConstructor: ({navigatorKey, subRoute}) =>
-                      Module2(navigatorKey: navigatorKey, subRoute: subRoute),
-                  depMod: DepModule(Module2.elevatedButtonBg)),
-            ),
-          ),
+          // Navigator(
+          //   key: _randomWords,
+          //   onGenerateRoute: (route) => MaterialPageRoute(
+          //     settings: route,
+          //     builder: (context) => const RandomWords(),
+          //   ),
+          // ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -68,17 +70,17 @@ class _TabsScreenState extends State<TabsScreen> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            label: 'random words',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Counter',
-          ),
-          BottomNavigationBarItem(
             icon: Module1.moduleIcon,
             label: 'M1',
           ),
+          BottomNavigationBarItem(
+            icon: CounterPage.moduleIcon,
+            label: 'Counter',
+          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.library_books),
+          //   label: 'random words',
+          // ),
         ],
       ),
     );

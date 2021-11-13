@@ -1,3 +1,5 @@
+// This file's contents are a direct copy from the official Flutter docs
+
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
