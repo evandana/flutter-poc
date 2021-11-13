@@ -17,7 +17,7 @@ class Module1 extends StatefulWidget {
       required this.depModProps,
       required this.depModConstructor,
       this.subRoute = p1SubRoute,
-      this.routeM2 = '/m1/m2'})
+      required this.routeM2})
       : super(key: key);
 
   @override
@@ -68,7 +68,7 @@ class _Module1State extends State<Module1> {
     late Widget page;
 
     print(settings.name);
-    if (settings.name!.contains('m2')) {
+    if (settings.name!.contains(widget.depModProps.routeKey)) {
       page = widget.depModConstructor(
         navigatorKey: _navigatorKey,
         subRoute: settings.name!,

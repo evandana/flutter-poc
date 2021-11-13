@@ -34,7 +34,7 @@ class _CounterPageState extends State<CounterPage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: const Text('Counter Page')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
