@@ -1,11 +1,6 @@
 import 'package:floater/counter_page.dart';
 import 'package:flutter/material.dart';
 
-// class M1ExternalRoutesConfig {
-//   final String counterRoute;
-//   M1ExternalRoutesConfig({this.counterRoute = '/counter'});
-// }
-
 class Module2 extends StatefulWidget {
   static const routeName = 'm2';
   static const moduleIcon = Icon(Icons.star);
@@ -84,10 +79,6 @@ class Module2p1 extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-              // ElevatedButton.icon(
-              //     icon: CounterPage.moduleIcon,
-              //     label: const Text('go to Counter'),
-              //     onPressed: () => ()),
               ElevatedButton.icon(
                   icon: Module2.moduleIcon,
                   label: const Text('< back (M1)'),
@@ -113,10 +104,6 @@ class Module2p2 extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-              // ElevatedButton.icon(
-              //     icon: CounterPage.moduleIcon,
-              //     label: const Text('go to Counter'),
-              //     onPressed: () => goToCounter(context)),
               ElevatedButton.icon(
                   style: Module2.elevatedButtonBg,
                   icon: Module2.moduleIcon,
@@ -125,9 +112,7 @@ class Module2p2 extends StatelessWidget {
               ElevatedButton.icon(
                   icon: Icon(Icons.arrow_forward),
                   label: const Text('Done with M2'),
-                  onPressed: () => Navigator.of(context)
-                          // .popUntil((route) => !route.toString().contains('m2'))),
-                          .popUntil((route) {
+                  onPressed: () => Navigator.of(context).popUntil((route) {
                         if (!route.settings.name!.contains('m2')) {
                           (route.settings.arguments as Map)['result'] =
                               'something';

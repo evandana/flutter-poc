@@ -1,9 +1,15 @@
 import 'package:english_words/english_words.dart';
 import 'package:floater/m1.dart';
+import 'package:floater/m2.dart';
 import 'package:flutter/material.dart';
 
 import './counter_page.dart';
 import './random_words.dart';
+
+class DepModule {
+  final ButtonStyle elevatedButtonBg;
+  DepModule(this.elevatedButtonBg);
+}
 
 class TabsScreen extends StatefulWidget {
   @override
@@ -45,16 +51,12 @@ class _TabsScreenState extends State<TabsScreen> {
             key: _m1Screen,
             onGenerateRoute: (route) => MaterialPageRoute(
               settings: RouteSettings(arguments: Map()),
-              builder: (BuildContext context) => Module1(),
+              builder: (BuildContext context) => Module1(
+                  depModConstructor: ({navigatorKey, subRoute}) =>
+                      Module2(navigatorKey: navigatorKey, subRoute: subRoute),
+                  depMod: DepModule(Module2.elevatedButtonBg)),
             ),
           ),
-          // Navigator(
-          //   key: _settingsScreen,
-          //   onGenerateRoute: (route) => MaterialPageRoute(
-          //     settings: route,
-          //     builder: (context) => SettingsScreen(),
-          //   ),
-          // ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -75,10 +77,6 @@ class _TabsScreenState extends State<TabsScreen> {
             icon: Icon(Icons.search),
             title: Text('M1'),
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.settings),
-          //   title: Text('Settings'),
-          // ),
         ],
       ),
     );
@@ -96,9 +94,6 @@ class _TabsScreenState extends State<TabsScreen> {
         case 2:
           _m1Screen.currentState!.popUntil((route) => route.isFirst);
           break;
-        // case 3:
-        //   _settingsScreen.currentState.popUntil((route) => route.isFirst);
-        //   break;
         default:
       }
     } else {

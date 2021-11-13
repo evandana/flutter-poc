@@ -1,11 +1,5 @@
 import 'package:floater/counter_page.dart';
-import 'package:floater/m2.dart';
 import 'package:flutter/material.dart';
-
-// class M1ExternalRoutesConfig {
-//   final String counterRoute;
-//   M1ExternalRoutesConfig({this.counterRoute = '/counter'});
-// }
 
 class Module1 extends StatefulWidget {
   static const routeName = 'm1';
@@ -16,7 +10,14 @@ class Module1 extends StatefulWidget {
 
   final String subRoute;
   final String routeM2;
-  const Module1({Key? key, this.subRoute = p1SubRoute, this.routeM2 = '/m1/m2'})
+  final depMod;
+  final depModConstructor;
+  const Module1(
+      {Key? key,
+      required this.depMod,
+      required this.depModConstructor,
+      this.subRoute = p1SubRoute,
+      this.routeM2 = '/m1/m2'})
       : super(key: key);
 
   @override
@@ -25,6 +26,7 @@ class Module1 extends StatefulWidget {
 
 class _Module1State extends State<Module1> {
   final _navigatorKey = GlobalKey<NavigatorState>();
+  var _m2Val = '-';
 
   void _goToM1p1() {
     _navigatorKey.currentState!
@@ -39,11 +41,12 @@ class _Module1State extends State<Module1> {
   _goToM2() {
     print('m2 route: ${widget.routeM2}');
     return _navigatorKey.currentState!.pushNamed(widget.routeM2);
-    // return _navigatorKey.currentState!.pushNamed(widget.routeM2).then((_) {
-    //   final arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    //   final result = arguments['result'];
-    // });
-    // Navigator.of(context).push(MaterialPageRoute(builder: (_) => Module2())
+  }
+
+  void _setM2Val(m2Val) {
+    setState(() {
+      _m2Val = m2Val;
+    });
   }
 
   @override
@@ -67,26 +70,20 @@ class _Module1State extends State<Module1> {
 
     print(settings.name);
     if (settings.name!.contains('m2')) {
-      page = Module2(
+      page = widget.depModConstructor(
         navigatorKey: _navigatorKey,
         subRoute: settings.name!,
       );
-      // return MaterialPageRoute(
-      //     settings: RouteSettings(arguments: Map(), name: '/m2'), // (1)
-      //     builder: (_) => Module2(
-      //           navigatorKey: _navigatorKey,
-      //           subRoute: settings.name!,
-      //         ));
     } else {
       switch (settings.name) {
-        // m2
-        // case '/m1/m2':
-        //   page = Module2(navigatorKey: _navigatorKey);
-        //   break;
-
         // m1
         case '/${Module1.routeName}/${Module1.p2SubRoute}':
-          page = Module1p2(goToM1p1: _goToM1p1, goToM2: _goToM2);
+          page = Module1p2(
+              m2Val: _m2Val,
+              setM2Val: _setM2Val,
+              depMod: widget.depMod,
+              goToM1p1: _goToM1p1,
+              goToM2: _goToM2);
           break;
         case '/${Module1.routeName}/${Module1.p1SubRoute}':
         case Module1.p1SubRoute:
@@ -103,16 +100,6 @@ class _Module1State extends State<Module1> {
       settings: RouteSettings(name: settings.name, arguments: Map()),
     );
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   switch (widget.subRoute) {
-  //     case Module1.p2SubRoute:
-  //       return Module1p2(goToM1p1: _goToM1p1);
-  //     case Module1.p1SubRoute:
-  //     default:
-  //       return Module1p1(goToM1p2: _goToM1p2);
-  //   }
-  // }
 }
 
 AppBar m1AppBar({String subPageName = ''}) {
@@ -159,7 +146,16 @@ class Module1p1 extends StatelessWidget {
 class Module1p2 extends StatelessWidget {
   final Function goToM1p1;
   final Function goToM2;
-  const Module1p2({Key? key, required this.goToM1p1, required this.goToM2})
+  final Function setM2Val;
+  final String m2Val;
+  final depMod;
+  const Module1p2(
+      {Key? key,
+      required this.setM2Val,
+      required this.m2Val,
+      required this.depMod,
+      required this.goToM1p1,
+      required this.goToM2})
       : super(key: key);
 
   @override
@@ -167,23 +163,31 @@ class Module1p2 extends StatelessWidget {
     return Scaffold(
         appBar: m1AppBar(subPageName: '2'),
         body: Center(
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'M2 val: $m2Val',
+              style: TextStyle(fontSize: 50),
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               ElevatedButton.icon(
                   icon: Module1.moduleIcon,
                   label: const Text('< back'),
                   onPressed: () => Navigator.of(context).maybePop()),
               ElevatedButton.icon(
-                  style: Module2.elevatedButtonBg,
+                  style: depMod.elevatedButtonBg,
                   icon: Icon(Icons.arrow_forward),
                   label: const Text('go to M2'),
                   onPressed: () async {
                     await goToM2();
                     var args =
                         ModalRoute.of(context)!.settings.arguments as Map;
+                    setM2Val(args['result']);
                     print('args: ${args['result']}');
                   }),
-            ])));
+            ]),
+          ],
+        )));
   }
 }
