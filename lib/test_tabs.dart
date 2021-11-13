@@ -6,17 +6,17 @@ import 'package:flutter/material.dart';
 import './counter_page.dart';
 // import './random_words.dart';
 
-/**
- * This would need to be extracted to a common package 
- * so it could be accessed by both the main orchestrator 
- * and the Modules (1/2)
- */
+/// This would need to be extracted to a common package
+/// so it could be accessed by both the main orchestrator
+/// and the Modules (1 & 2)
 class DepModule {
   final ButtonStyle elevatedButtonBg;
   DepModule(this.elevatedButtonBg);
 }
 
 class TabsScreen extends StatefulWidget {
+  const TabsScreen({Key? key}) : super(key: key);
+
   @override
   _TabsScreenState createState() => _TabsScreenState();
 }
