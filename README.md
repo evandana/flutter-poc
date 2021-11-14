@@ -1,16 +1,52 @@
-# floater
+# POC for Nested Navigation with Independent Modules
 
-A new Flutter project.
+## Intent
 
-## Getting Started
+The purpose of this repo is to provide a **PoC for achieving the following requirements**. This not only will provide a base from which an actual app could be built, but will also provide a place for soliciting **community input on code and pattern refinement**.
+### Requirements
+- Tabbed navigation, without losing state when switching tabs
+- Show a flow of screens from Module 1, with some screens embedded from Module 2, **without these two modules being coupled** beyond interface requirements.
 
-This project is a starting point for a Flutter application.
+### User Flow
+- Module 1 = `M1`
+- Module 2 = `M2`
 
-A few resources to get you started if this is your first Flutter project:
+```mermaid
+%%{init: {'theme':'dark'}}%%
+graph
+    A((Home Screen with Tabs)) --- B(M1: Screen 1)
+    B -- Button Tap --> C(M1: Screen 2)
+    C -- Button Tap --> D(M2: Screen 1)
+    D -- Button Tap --> E(M2: Screen 2)
+    E == Button Tap, Passes Value ==> C
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+    C -. Native Back .-> B
+    D -. Native Back .-> C
+    E -. Native Back .-> D
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    style B fill:#900C3F
+    style C fill:#900C3F
+    style D fill:#8A2BE2
+    style E fill:#8A2BE2
+```
+
+### General Module Architecture
+
+The root app will depend on Module 1 and Module 2, implementing them and providing parameters to configure them appropriately.
+
+The modules need to be independent of each other; M1 and M2 can't be hardcoded to reference the other.
+
+Module 1 should show some screens from Module 2 as if they're part of a continuous flow.
+
+```mermaid
+graph LR
+  A(App) --> B[Module 1]
+  A(App) --> C[Module 2]
+
+  style B fill:#900C3F
+  style C fill:#8A2BE2
+```
+
+## Outstanding Questions / Known Issues
+
+- [ ] How should M1p1 get the value from M1p2 when you go from M1p2 to M1p1 (native back button or the screen button)?
