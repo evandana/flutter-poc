@@ -1,19 +1,20 @@
-# POC for Nested Navigation with Independent Modules
+---
+permalink: README.html
+---
 
-## Intent
+# Flutter PoC Overview
 
 The purpose of this repo is to provide a **PoC for achieving the following requirements**. This not only will provide a base from which an actual app could be built, but will also provide a place for soliciting **community input on code and pattern refinement**.
-### Requirements
+## Requirements
 - Tabbed navigation, without losing state when switching tabs
 - Show a flow of screens from Module 1, with some screens embedded from Module 2, **without these two modules being coupled** beyond interface requirements.
 
-### User Flow
+## User Flow
 - Module 1 = `M1`
 - Module 2 = `M2`
 
 ```mermaid
-%%{init: {'theme':'dark'}}%%
-graph
+graph TD
     A((Home Screen with Tabs)) --- B(M1: Screen 1)
     B -- Button Tap --> C(M1: Screen 2)
     C -- Button Tap --> D(M2: Screen 1)
@@ -24,13 +25,14 @@ graph
     D -. Native Back .-> C
     E -. Native Back .-> D
 
-    style B fill:#900C3F
-    style C fill:#900C3F
-    style D fill:#8A2BE2
-    style E fill:#8A2BE2
+    style B fill:#BC6E8C
+    style C fill:#BC6E8C
+    style D fill:#BC9E6E
+    style E fill:#BC9E6E
+    linkStyle default stroke-width:1px,fill:none,stroke:black;
 ```
 
-### General Module Architecture
+## General Module Architecture
 
 The root app will depend on Module 1 and Module 2, implementing them and providing parameters to configure them appropriately.
 
@@ -43,10 +45,12 @@ graph LR
   A(App) --> B[Module 1]
   A(App) --> C[Module 2]
 
-  style B fill:#900C3F
-  style C fill:#8A2BE2
+  style B fill:#BC6E8C
+  style C fill:#BC9E6E
+  linkStyle default stroke-width:1px,fill:none,stroke:black;
+
 ```
 
-## Outstanding Questions / Known Issues
+# Outstanding Questions / Known Issues
 
 - [ ] How should M1p1 get the value from M1p2 when you go from M1p2 to M1p1 (native back button or the screen button)?
