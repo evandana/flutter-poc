@@ -54,3 +54,8 @@ graph LR
 # Outstanding Questions / Known Issues
 
 - [ ] How should M1p1 get the value from M1p2 when you go from M1p2 to M1p1 (native back button or the screen button)?
+
+
+# Github Pages Notes
+
+Local dev: `jekyll build --config _config.yml,_config_local.yml --watch`

@@ -1,0 +1,15 @@
+defaults:
+  - 
+    scope:
+      path: "README.md"
+    values:
+      permalink: "README.html"
+
+title: Flutter PoC
+description:
+baseurl: "" # <------ the only thing different!
+url: ""
+twitter_username: jekyllrb
+github_username:  jekyll
+markdown: kramdown
+theme: minima
