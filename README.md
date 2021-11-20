@@ -6,7 +6,7 @@ permalink: README.html
 
 The purpose of this repo is to provide a **PoC for achieving the following requirements**. This not only will provide a base from which an actual app could be built, but will also provide a place for soliciting **community input on code and pattern refinement**.
 
-
+https://user-images.githubusercontent.com/857676/142732924-8d3a080e-6f3c-469d-9747-b59a20def938.mp4
 
 ## Requirements
 - Tabbed navigation, without losing state when switching tabs
