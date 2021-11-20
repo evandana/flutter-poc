@@ -5,6 +5,9 @@ permalink: README.html
 # Flutter PoC Overview
 
 The purpose of this repo is to provide a **PoC for achieving the following requirements**. This not only will provide a base from which an actual app could be built, but will also provide a place for soliciting **community input on code and pattern refinement**.
+
+https://user-images.githubusercontent.com/857676/142732924-8d3a080e-6f3c-469d-9747-b59a20def938.mp4
+
 ## Requirements
 - Tabbed navigation, without losing state when switching tabs
 - Show a flow of screens from Module 1, with some screens embedded from Module 2, **without these two modules being coupled** beyond interface requirements.
@@ -54,6 +57,7 @@ graph LR
 # Outstanding Questions / Known Issues
 
 - [ ] How should M1p1 get the value from M1p2 when you go from M1p2 to M1p1 (native back button or the screen button)?
+
 
 
 # Github Pages Notes
